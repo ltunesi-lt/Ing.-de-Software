@@ -1,7 +1,4 @@
----
-name: arbol-de-utilidad
-description: usarla el usuario quiere crear un arbol de utilidad completo
----
+
 # ARBOL DE UTILIDAD (UTILITY TREE)
 
 ## Propósito

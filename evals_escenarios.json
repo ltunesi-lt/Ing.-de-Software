@@ -1,0 +1,107 @@
+{
+  "skill_name": "escenarios-atributos-de-calidad",
+  "evals": [
+    {
+      "id": 1,
+      "name": "BAMS-generacion-completa",
+      "prompt": "Enunciado del sistema BAMS (Building Automation Management System) con 7 requerimientos (a-g) mezclando QA scenarios, un constraint y un requerimiento funcional. PEDIDO: creación de escenarios y árbol de utilidad identificando atributos de calidad.",
+      "expected_output": "Clasifica correctamente cada uno de los 7 ítems (4 QA, 1 constraint, 1 FR, 1 ambiguo sin fuente), genera escenarios de 6 partes solo para los QA, y arma un árbol de 4 niveles con sección de Constraints separada.",
+      "files": [],
+      "expectations": [
+        "Clasifica el ítem e) ('debe correr en Safari y Chrome') como Constraint y no como escenario de calidad con prioridad",
+        "Clasifica el ítem f) (automatizar persianas/ventanas) como requerimiento funcional, fuera del árbol de utilidad",
+        "Identifica a) como Seguridad, b) como Disponibilidad, c) como Integrabilidad y d) como Modificabilidad",
+        "El ítem g) (CRUD de dispositivos por admin) se marca como pendiente de aclaración por falta de archivo de referencia, sin forzarlo dentro de otro atributo",
+        "Cada escenario generado incluye los 6 elementos del template SEI",
+        "Las medidas de respuesta sin dato explícito del stakeholder están marcadas como [STRAW MAN]",
+        "El árbol de utilidad tiene una sección 'Constraints del sistema' separada del árbol principal, sin tupla de prioridad"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "monopatines-generacion-completa",
+      "prompt": "Enunciado completo del sistema de alquiler de monopatines eléctricos (GPS, QR, Mercado Pago, pausas, mantenimiento) con lista de funcionalidades al final. PEDIDO: identificar atributos de calidad, sus escenarios y crear árbol de utilidad.",
+      "expected_output": "Identifica Seguridad (anti-spoofing de GPS al finalizar viaje), Disponibilidad (continuidad del tracking GPS) e Integrabilidad (Mercado Pago) como los QA relevantes; excluye del árbol la lista de funcionalidades del final por ser requerimientos funcionales.",
+      "files": [],
+      "expectations": [
+        "Identifica como escenario de Seguridad el riesgo de que el usuario falsifique (spoofee) el GPS para finalizar el viaje sin estar en una parada válida, no solo como regla funcional",
+        "Identifica un escenario de Disponibilidad sobre pérdida de señal/conectividad del monopatín",
+        "Identifica un escenario de Integrabilidad sobre la integración con la pasarela de Mercado Pago",
+        "La lista de funcionalidades del final (reportes, CRUD de monopatines/paradas, anular cuenta) NO se incluye como escenarios de calidad con tupla de prioridad en el árbol",
+        "Las medidas de respuesta sin dato explícito están marcadas como [STRAW MAN]"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "reclasificacion-modificabilidad-a-usabilidad",
+      "prompt": "Escenario de finalización de viaje inválida por GPS, etiquetado por el usuario como 'Modificabilidad'. Pide chequear si está completo.",
+      "expected_output": "Señala que el atributo está mal identificado (es Usabilidad, no Modificabilidad) antes de evaluar completitud, y evalúa completitud sobre la reclasificación correcta.",
+      "files": [],
+      "expectations": [
+        "Indica explícitamente que el escenario no corresponde a Modificabilidad sino a Usabilidad",
+        "Justifica la reclasificación citando el contenido de usabilidad.md (prevención/undo de acción errónea, feedback claro al usuario)",
+        "Señala que las medidas numéricas (100%, <1s, <2 interacciones) deberían marcarse como [STRAW MAN] si no fueron validadas con el stakeholder, en vez de darlas por definitivas"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "trading-core-identificacion-y-arbol",
+      "prompt": "Frase del CEO sobre migración del core de negociación: 'ridículamente rápido', 'nunca puede caerse', 'datos blindados contra hackeos'. Pide identificar atributos de calidad, escenarios, y árbol de utilidad.",
+      "expected_output": "Identifica Performance, Disponibilidad y Seguridad desde la frase del CEO con tuplas (H,H) y medidas straw man, y agrega además una rama de Modificabilidad/Testeabilidad justificada por tratarse de una migración activa, aunque el CEO no la haya mencionado.",
+      "files": [],
+      "expectations": [
+        "Extrae al menos 3 business goals en formato Subject/Outcome/Context, uno por cada atributo identificado (Performance, Disponibilidad, Seguridad)",
+        "Las tres tuplas de prioridad son (H,H) y las medidas de respuesta están marcadas [STRAW MAN]",
+        "El árbol incluye una rama de Modificabilidad y/o Testeabilidad (franja Design Time de BCK12) justificada explícitamente por el contexto de migración activa del sistema, no solo por lo que dijo el CEO"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "chequeo-seguridad-granularidad-y-fuente-invalida",
+      "prompt": "Escenario de Seguridad para el core de negociación con fuente del estímulo 'pedro', medida de la respuesta vacía, y artefacto 'Capa de comunicaciones y base de datos de transacciones'. Pide chequear completitud.",
+      "expected_output": "Detecta las tres fallas: medida faltante (straw man), fuente del estímulo inválida (nombre propio en vez de categoría), y problema de granularidad del artefacto que agrupa dos componentes distintos.",
+      "files": [],
+      "expectations": [
+        "Señala que la medida de la respuesta falta y propone un straw man marcado explícitamente, indicando a quién debe validarse",
+        "Señala que 'pedro' no es una fuente del estímulo válida según la General Scenario Table de seguridad.md y sugiere una categoría correcta (ej. atacante externo / interno con o sin credenciales)",
+        "Señala el hallazgo de granularidad en el artefacto ('capa de comunicaciones y base de datos') y recomienda separar en dos escenarios distintos"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "chequeo-disponibilidad-bams-respuesta-incompleta",
+      "prompt": "Escenario de Disponibilidad para BAMS (sensor de incendio) con medida faltante. Pide chequear si está completo.",
+      "expected_output": "Detecta la medida faltante (straw man) y además detecta que la Respuesta en sí está incompleta frente a lo que pide disponibilidad.md (falta recuperación/registro de auditoría, solo hay notificación).",
+      "files": [],
+      "expectations": [
+        "Señala que la medida de la respuesta falta y propone un straw man marcado explícitamente",
+        "Señala que la Respuesta está incompleta porque disponibilidad.md espera detectar/prevenir/recuperarse/notificar y el escenario dado solo cubre notificación, sin registro de auditoría ni plan de reintento/escalamiento"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "reclasificacion-concurrencia-no-es-usabilidad",
+      "prompt": "Requerimiento sobre evitar doble activación concurrente del mismo monopatín, identificado por el usuario como escenario de Usabilidad. Pide confirmar si el atributo está bien identificado.",
+      "expected_output": "Indica que NO es un escenario de Usabilidad, aplica el filtro constraint/QA de la skill, y argumenta que es más cercano a un invariante funcional de integridad de datos bajo concurrencia que a un QA scenario negociable.",
+      "files": [],
+      "expectations": [
+        "Indica explícitamente que la identificación como Usabilidad es incorrecta",
+        "Aplica el criterio de discriminación FR/constraint/QA (condición binaria de corrección vs. cualidad negociable) para argumentar la reclasificación",
+        "No fuerza el escenario dentro de un atributo del set de 10 sin justificar por qué, y contempla tratarlo como invariante funcional/de concurrencia en vez de QA"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "chequeo-arbol-utilidad-mal-construido",
+      "prompt": "Árbol de utilidad para el sistema de negociación (TEST_4) con niveles colapsados, notación 'Alta/Media' en vez de H/M/L, un 'escenario suelto' de retención de logs sin prioridad, y sin trazabilidad a business goals. Pide revisión.",
+      "expected_output": "Detecta los 4 problemas estructurales: colapso de niveles del árbol, notación de prioridad no estandarizada, el escenario suelto de logs identificado como constraint mal ubicado, y ausencia de trazabilidad de las tuplas a business goals.",
+      "files": [],
+      "expectations": [
+        "Detecta que 'Seguridad' y 'Rendimiento' (la segunda aparición) están usados como sub-atributos, colapsando los niveles 2 y 3 obligatorios del árbol",
+        "Detecta que la notación de prioridad ('Alta, Alta') no sigue el estándar H/M/L de la skill",
+        "Identifica el 'escenario suelto' de retención de logs por 5 años como un candidato a Constraint (no QA), y señala que no debería estar dentro del árbol como escenario sin prioridad",
+        "Señala que ninguna tupla de prioridad cita el business goal que la sostiene, violando la regla de trazabilidad"
+      ]
+    }
+  ]
+}
