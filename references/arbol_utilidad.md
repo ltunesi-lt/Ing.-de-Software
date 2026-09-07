@@ -72,7 +72,7 @@ Antes de asignar la tupla (Importancia, Dificultad) a un escenario:
    "parezca" correcto.
 3. Formato de reporte por escenario:
    `(H, H) — Business goal: [Subject/Outcome/Context] → cita textual o 
-   paráfrasis de la frase del stakeholder que lo sostiene`
+   paráfrasis de la frase del stakeholder que lo sostiene`.
 4. Si un escenario recibe prioridad alta pero no hay un business goal 
    identificable que lo sostenga, marcarlo como **prioridad no trazada** 
    y flaggearlo para validar con el stakeholder antes de tratarlo como 
