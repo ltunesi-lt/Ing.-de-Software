@@ -1,0 +1,176 @@
+CASOS DE TEST
+TEST_1
+1. Sistema de automatización de un edificio
+(Building Automation Management System –
+BAMS). Este sistema permite a un individuo u
+organización controlar el funcionamiento de
+distintos dispositivos instalados en un edificio
+o campus. Las funciones a controlar incluyen:
+calefacción y aire acondicionado, luces,
+gestión de daños (por ej., intrusos, detección
+de humo, fuego), control de acceso mediante
+puertas a distintos sectores del edificio (o
+campus). El sistema debe dar soporte a
+distintos usuarios que operan el sistema, permitiendo reportar eventos de interés en tableros, y
+enviar comandos a los distintos dispositivos. Los dispositivos integrados en el edificio pueden ser
+de distintos fabricantes, e involucrar distintos protocolos de comunicación.
+La lista de requerimientos para BAMS a clasificar es la siguiente:
+a) El sistema debe verificar que un usuario tenga acceso/permisos para operar y modificar
+parámetros de ciertos dispositivos (por ej., el nivel de calefacción de una habitación, o el
+código de seguridad para acceder a un determinado sector), mediante usuario y
+contraseña.
+b) El sistema debe reportar cualquier alarma crítica (por ej., una alarma de incendio), aún
+cuando existan problemas de conectividad, sin que se degrade el tiempo de respuesta
+desde que sucede el evento hasta que el sistema la reporta (por ej., 2 segundos).
+c) El sistema debe dar soporte para integrar dispositivos de un abanico de fabricantes, y
+permitir que estos dispositivos puedan interactuar entre si y con el resto del sistema (por
+ej., dispositivos Siemens, Honeywell, etc.)
+d) El sistema debe permitir que se puedan incorporar extensiones de funcionalidad (por ej.,
+soporte para tablets para el monitoreo, mecanismos de auto-control de temperatura,
+etc.) sin necesidad de tener que desarrollar todo el sistema de nuevo.
+e) El sistema debe poder correrse en una versión Web, tanto en Safari como en Chrome.
+2
+f) El sistema debe permitir que, a través de una consola táctil, el usuario pueda interactuar
+con distintos dispositivos para: levantar persianas y apagar luces interiores cuando hay
+luz natural suficiente para trabajar; y para abrir las ventanas y permitir una ventilación
+exterior cuando las condiciones meteorológicas (exteriores al edificio) así lo permitan,
+desactivando la calefacción o aire acondicionado.
+g) El sistema debe permitir que en administrador agregue, remueva, y configure dispositivos
+instalados en la red del edificio.
+PEDIDO: creacion de escenarios y arbol de utilidad identificando atributos de calidad
+
+
+TEST_2
+identificar los atributos de calidad, sus escenarios y crear arbol de utilidad
+Una empresa va a lanzar un negocio para permitir el alquiler de
+monopatines electrónicos en distintas paradas de una ciudad
+capital, para lo cual requiere el desarrollo de una aplicación móvil
+para los usuarios del servicio, y adicionalmente una aplicación
+Web para la gestión correspondiente.
+El servicio consiste en contar con una flota de monopatines
+eléctricos, inicialmente estacionados en diferentes paradas previamente definidas, dentro del
+centro de la ciudad y zonas cercanas. Los monopatines se buscan y se dejan en dichas paradas,
+esto es una condición básica para el funcionamiento del servicio.
+A continuación, se describe el funcionamiento del servicio.
+Para poder utilizar el monopatín el usuario deberá crearse una cuenta en la app, asociada a una
+cuenta de Mercado Pago. Previamente al uso del servicio, debe haber cargado en su cuenta un
+monto de dinero, que se irá descontando en función del tiempo de uso del monopatín. Se puede
+utilizar la misma cuenta de Mercado Pago para varias cuentas del servicio.
+Una cuenta podrá tener asociados varios usuarios que utilizarán los créditos cargados en la
+cuenta, y un usuario puede asociarse a más de una cuenta. Cada usuario tendrá un nombre y
+debe registrar su número de celular, email válido, nombre y apellido. La cuenta tendrá un número
+identificatorio y una fecha de alta.
+Una vez que la cuenta tenga cargado dinero, el usuario podrá activar un monopatín para su uso,
+mediante un lector de código QR. En ese momento se generará un viaje asociado a la cuenta del
+usuario que está utilizando su app, registrando fecha y hora de inicio. El uso del monopatín es
+por tiempo, comienza a consumirse el crédito cuando se activa el monopatín, y esto permitirá
+que se encienda en ese momento. A partir de allí el usuario del servicio podrá utilizar el
+monopatín, y una vez que no lo requiera más deberá dejarlo en una parada previamente
+establecida. En este momento selecciona la opción para cortar el servicio, una vez estacionado
+el monopatín, finalizando el viaje. Al finalizar el viaje se va a registrar la fecha y hora de
+finalización y los kilómetros recorridos. Cabe aclarar que la app no debe permitir finalizar un viaje
+sino detecta mediante el GPS con el que cuenta el monopatín, que se encuentra en una parada
+permitida.
+4
+Si el usuario requirió detenerse durante no más de 15 minutos en algún punto intermedio del
+viaje, la app contará con una opción Pausar. Con esta opción se registra una pausa asociada al
+viaje, para establecer que el monopatín no está siendo utilizado, aunque aún corre el gasto de
+créditos. De esta manera se puede establecer el uso real del monopatín, y la app permite
+apagarlo, pero no lo desasigna a la cuenta actual. Una vez finalizada la pausa el usuario lo puede
+indicar por la app, para poder encender el monopatín. Si pasaran los 15 min automáticamente se
+volverá a considerar en uso el monopatín, y se comienza a cobrar un monto mayor de crédito
+hasta el final del viaje.
+El monopatín contará con un GPS y está identificado unívocamente con ID, por lo que en todo
+momento se puede determinar dónde está cada monopatín. De esta manera, si un usuario
+necesita un monopatín podrá encontrar el más cercano a través de un mapa interactivo en la app
+que muestra los monopatines en la zona.
+Para el mantenimiento de los monopatines se va a crear con una aplicación Web para registrar
+todas las acciones de mantenimiento que realizan los Encargados de Mantenimiento de
+monopatines. Para establecer si un monopatín requiere de mantenimiento se considera el
+tiempo de uso y los kilómetros recorridos, para lo que se requiere del registro de esta
+información, así como la generación de reportes asociados al uso de monopatines, respecto a
+kilómetros y tiempo de uso, incluyendo tiempo con pausas y sin pausas. Es necesario saber si un
+monopatín está en mantenimiento, o se encuentra habilitado para su uso, al estar en una parada
+definida luego de finalizado un mantenimiento.
+Además, el Administrador de Monopatines es quien gestiona los monopatines y las paradas en
+la aplicación (por ej., agregando, quitando, actualizando datos según sea requerido), también
+establece los precios de tarifa normal y extras por reinicio de pausas extensas. Por otro lado, es
+capaz de anular cuentas cuando por algún motivo que se considere necesario.
+Un primer análisis del problema reveló las siguientes funcionalidades:
+• Generar reporte de uso de monopatines por kilómetros
+• Generar reporte de uso de monopatines por tiempo con pausas
+• Generar reporte de uso de monopatines por tiempo sin pausas
+• Registrar monopatín en mantenimiento
+• Registrar fin de mantenimiento de monopatín
+• Ubicar monopatín en parada (opcional)
+• Agregar monopatín
+• Quitar monopatín
+• Registrar parada
+• Quitar parada
+• Definir precio
+• Definir tarifa extra para reinicio por pausa extensa
+• Anular cuenta
+
+TEST_3
+Dado este escenario correspondiente al atributo modificabilidad. Chequea si esta completo.
+Fuente del estímulo: Usuario final 
+Estímulo:El usuario intenta finalizar el viaje sin estar en una parada válida (según GPS)
+Artefacto: Flujo de finalización de viaje en la app
+Ambiente: Uso rutinario, posible error de usuario
+Respuesta: El sistema impide finalizar el viaje, muestra un mensaje claro indicando la distancia a la parada más cercana y sugiere la ubicación en el mapa
+Medida: El 100% de los intentos de finalización inválida son bloqueados; el mensaje de error se muestra en menos de 1 segundo; el usuario encuentra la parada más cercana en menos de 2 interacciones.
+
+TEST_4:
+La empresa está migrando su core de negociación. El CEO menciona: "El sistema debe ser ridículamente rápido, nunca puede caerse porque perderíamos millones por segundo, y los datos de las transacciones financieras deben estar blindados contra hackeos". Dado este texto, identifica atributos de calidad y escenarios, genera el arbol de utilidad.
+
+TEST_5:
+Decime si mi escenario para el enunciado anterior esta completo:  #### Escenario 3: Seguridad (Confidencialidad e Integridad contra ataques)
+
+
+
+* **Fuente del estímulo:** pedro.
+
+
+* **Estímulo:** Intento de interceptación (man-in-the-middle) o alteración de los datos de transacciones financieras en tránsito y en reposo.
+
+
+* **Artefacto:** Capa de comunicaciones y base de datos de transacciones del core.
+
+
+* **Ambiente:** Sistema online en operación normal.
+
+
+* **Respuesta:** El sistema autentica la comunicación mediante TLS 1.3, encripta los datos en reposo (AES-256), bloquea la solicitud no autorizada y registra el intento en el log de auditoría.
+
+
+* **Medida de la respuesta:** 
+
+
+FALTA OTRO DE ESCENARIO INCOMPLETO, MALA IDENT DE ATRIB CALIDAD Y UN MAL ARBOL DE UTILIDAD.
+
+
+TEST_6 (escenario INCOMPLETO)
+Dado este escenario correspondiente al atributo disponibilidad para el sistema BAMS. Chequea si está completo.
+
+* **Fuente del estímulo:** Sensor de incendio
+* **Estímulo:** Se detecta humo en un sector del edificio
+* **Artefacto:** Módulo de gestión de alarmas
+* **Ambiente:** Operación normal
+* **Respuesta:** El sistema notifica la alarma al panel de control central
+* **Medida:** —
+
+TEST_7 (MALA identificación de atributo de calidad)
+Dado este texto: "El sistema de monopatines debe garantizar que, cuando dos usuarios intenten reservar el mismo monopatín al mismo tiempo, solo uno de ellos logre activarlo, evitando así una asignación duplicada." 
+Identifiqué esto como un escenario de Usabilidad. Decime si el atributo de calidad está bien identificado.
+
+TEST_8 (árbol de utilidad MAL construido)
+
+Para el sistema de negociación (TEST_4), armé este árbol de utilidad. Revisalo y decime si está bien construido:
+
+Utilidad
+├── Rendimiento
+│    ├── Seguridad: los datos deben estar encriptados (Alta, Alta)
+│    └── El sistema responde en <10ms bajo carga normal (Alta, Media)
+├── Disponibilidad
+│    └── Rendimiento: el sistema nunca debe caerse (Alta, Alta)
+└── Escenario suelto: los logs deben guardarse por 5 años (sin prioridad)
