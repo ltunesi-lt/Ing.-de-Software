@@ -149,7 +149,7 @@ Decime si mi escenario para el enunciado anterior esta completo:  #### Escenario
 FALTA OTRO DE ESCENARIO INCOMPLETO, MALA IDENT DE ATRIB CALIDAD Y UN MAL ARBOL DE UTILIDAD.
 
 
-TEST_6 (escenario INCOMPLETO)
+TEST_6 (vemos que sucede si se presenta un escenario INCOMPLETO)
 Dado este escenario correspondiente al atributo disponibilidad para el sistema BAMS. Chequea si está completo.
 
 * **Fuente del estímulo:** Sensor de incendio
@@ -159,12 +159,11 @@ Dado este escenario correspondiente al atributo disponibilidad para el sistema B
 * **Respuesta:** El sistema notifica la alarma al panel de control central
 * **Medida:** —
 
-TEST_7 (MALA identificación de atributo de calidad)
+TEST_7 (comprobamos que hay una MALA identificación de atributo de calidad)
 Dado este texto: "El sistema de monopatines debe garantizar que, cuando dos usuarios intenten reservar el mismo monopatín al mismo tiempo, solo uno de ellos logre activarlo, evitando así una asignación duplicada." 
 Identifiqué esto como un escenario de Usabilidad. Decime si el atributo de calidad está bien identificado.
 
-TEST_8 (árbol de utilidad MAL construido)
-
+TEST_8 (comprobamos que identifique que el árbol de utilidad está MAL construido)
 Para el sistema de negociación (TEST_4), armé este árbol de utilidad. Revisalo y decime si está bien construido:
 
 Utilidad
