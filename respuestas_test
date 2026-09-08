@@ -1,0 +1,253 @@
+
+TEST_1:
+- RESPUESTA DE CLAUDE: 
+Escenarios (referencia consultada entre paréntesis):
+
+Seguridad (seguridad.md)
+
+Fuente: usuario del sistema que intenta operar/modificar un dispositivo
+Estímulo: intento de acceso/modificación sin credenciales válidas
+Artefacto: módulo de control de acceso del BAMS
+Ambiente: operación normal, online
+Respuesta: el sistema autentica (usuario/contraseña), autoriza según permisos, bloquea el intento y audita el evento
+Medida: [STRAW MAN — validar con seguridad del edificio] 100% de accesos no autorizados bloqueados; autenticación ≤2s; evento auditado en el mismo ciclo
+
+Disponibilidad (disponibilidad.md)
+
+Fuente: sensor de incendio/humo
+Estímulo: alarma crítica generada mientras hay falla de conectividad
+Artefacto: módulo de gestión de alarmas / canal de comunicación
+Ambiente: modo degradado (falla de red)
+Respuesta: el sistema detecta la falla, conmuta a una vía alternativa (failover) y reporta la alarma sin degradar el tiempo de respuesta
+Medida: reporte de la alarma en ≤2 segundos desde el evento (dato explícito del stakeholder, no es straw man)
+Integrabilidad (integrabilidad.md)
+
+Fuente: integrador de sistemas / dispositivo nuevo (ej. Honeywell)
+Estímulo: necesidad de incorporar un dispositivo de un fabricante nuevo
+Artefacto: capa de integración/gateway de protocolos
+Ambiente: tiempo de diseño/integración
+Respuesta: se integra vía interfaz estándar sin modificar dispositivos ya integrados
+Medida: [STRAW MAN] esfuerzo ≤ X días-persona; 0 componentes existentes modificados
+
+Modificabilidad (modificabilidad.md)
+
+Fuente: desarrollador / product owner
+Estímulo: solicitud de agregar una extensión (ej. monitoreo por tablet)
+Artefacto: módulo de extensiones del BAMS
+Ambiente: tiempo de diseño/build
+Respuesta: se agrega como módulo nuevo sin modificar el core
+Medida: [STRAW MAN] costo ≤ X días-persona; 0 regresiones en módulos existentes
+
+Árbol de utilidad (parcial):
+Utilidad
+├── Seguridad
+│    └── Autenticación/Autorización
+│         └── Bloqueo de acceso no autorizado a dispositivo — (H, M)
+├── Disponibilidad
+│    └── Recuperación ante falla de conectividad
+│         └── Reporte de alarma crítica pese a falla de red — (H, H) — business goal: alarmas críticas / deben reportarse siempre / seguridad de personas
+├── Integrabilidad
+│    └── Interoperabilidad multi-fabricante
+│         └── Incorporación de dispositivo de nuevo fabricante — (M, M)
+└── Modificabilidad
+     └── Extensibilidad
+          └── Incorporación de extensión sin rediseño — (M, M) [prioridad no trazada, falta cita de business goal]
+
+Constraints del sistema (fuera del árbol, sin tupla):
+- Debe operar en Web sobre Safari y Chrome
+
+
+- CONCLUSIÓN: funciona correctamente. Clasifica bien los atributos de calidad diferenciandolos de los requerimientos funcionales excepto el caso 1E donde lo clasifica como una constraint y en realidad es el atributo de calidad portabilidad. 
+- 1A, 1C, 1D: escenarios correctos.
+- 1B: el escenario está parcialmente correcto ya que al identificar la fuente del estímulo se guió por el ejemplo dado y no lo generalizó. 
+MEDIDAS: aclarar en la skill que no se guie por los ejemplos dados en el enunciado para clasificar los escenarios, que lo utilice para pensar una respuesta general.
+- El árbol de utilidad lo realizó correctamente excepto por el caso del 1E el cual fue clasificado como una constraint, por lo que no incluyó el atributo de calidad correcto de dicho inciso.
+ 
+
+
+TEST_2: 
+- RESPUESTA DE CLAUDE:
+Atributos identificados: Disponibilidad, Performance, Seguridad, Integrabilidad, Modificabilidad, Usabilidad.
+(Nota: "no permitir finalizar viaje si el GPS no detecta parada válida" es un requisito funcional, no un escenario de calidad en sí — ver TEST_3.)
+
+Escenarios clave:
+
+Disponibilidad — Fuente: usuario final · Estímulo: falla del servicio de geolocalización al activar un monopatín · Artefacto: servicio de geolocalización/backend de flota · Ambiente: operación normal/pico · Respuesta: el sistema detecta la falla, reintenta, y si no resuelve ofrece un monopatín alternativo · Medida: [STRAW MAN] disponibilidad ≥99.5% en horario operativo; detección de falla ≤5s
+
+Performance — Fuente: usuario final · Estímulo: consulta del mapa con monopatines cercanos en hora pico · Artefacto: servicio de mapa/ubicación de flota · Ambiente: sobrecarga (pico) · Respuesta: el sistema calcula y renderiza posiciones actuales · Medida: [STRAW MAN] latencia p95 ≤2s con carga concurrente de X usuarios
+
+Seguridad — Fuente: atacante externo · Estímulo: intento de acceso no autorizado a una cuenta para consumir créditos · Artefacto: servicio de autenticación de cuentas · Ambiente: online · Respuesta: autenticación, bloqueo tras intentos fallidos, notificación al usuario · Medida: [STRAW MAN] bloqueo tras 5 intentos; 100% de datos de pago encriptados en tránsito/reposo
+Integrabilidad — Fuente: desarrollador · Estímulo: integrar el cobro vía Mercado Pago · Artefacto: interfaz de integración de pagos · Ambiente: diseño/desarrollo · Respuesta: integración vía API estándar sin modificar el resto de cuentas · Medida: [STRAW MAN] esfuerzo ≤X días-persona
+
+Modificabilidad — Fuente: Administrador de Monopatines · Estímulo: modificar tarifa o agregar tarifa extra por pausa extensa · Artefacto: módulo de configuración de tarifas · Ambiente: runtime · Respuesta: cambio aplicado sin nuevo despliegue · Medida: [STRAW MAN] cambio reflejado en <1 min sin downtime
+
+Utilidad
+├── Disponibilidad → Recuperación ante falla de GPS/backend → escenario (H, M)
+├── Performance → Carga en hora pico → escenario (M, M)
+├── Seguridad → Protección de cuentas y pagos → escenario (H, M)
+├── Integrabilidad → Integración con Mercado Pago → escenario (H, L)
+└── Modificabilidad → Configuración dinámica de tarifas → escenario (M, L)
+- CONCLUSIÓN: atributos de calidad identificados correctamente y diferenciados de requerimientos funcionales. Escenarios correctos y completos. Arbol de utilidad completo.
+
+
+
+TEST_3:
+- RESPUESTA DE CLAUDE:
+El escenario tiene los 6 elementos presentes, pero está mal clasificado: no es Modificabilidad. Modificabilidad trata sobre el costo de cambiar el sistema (código, componentes, configuración); acá el sistema no cambia — está previniendo un error de uso y guiando al usuario, lo cual coincide exactamente con la definición de usabilidad.md ("deshace o previene la acción errónea... provee retroalimentación clara del estado"). Corresponde a Usabilidad.
+
+Además, las medidas ("100%", "<1s", "<2 interacciones") no citan una fuente del stakeholder — deben marcarse como [STRAW MAN — validar con product owner/UX], no presentarse como definitivas.
+
+Granularidad del artefacto ("Flujo de finalización de viaje en la app") es aceptable como funcionalidad nombrada.
+
+Veredicto: incompleto en cuanto a corrección de clasificación y trazabilidad de medida; correcto en estructura de 6 elementos.  
+- CONCLUSIÓN: se planteó un escenario que pretendía haber definido bien el atributo de calidad "modificabilidad". Se identificó y explicó correctamente por qué no se trata de tal requerimiento. En su lugar, presentó la respuesta correcta clasificando el atributo cómo "usabilidad". Además, identificó correctamente que las medidas de respuesta deben marcarse cómo [STRAW MAN - validar] y no presentarse como definitivas. 
+
+
+
+TEST_4:
+- RESPUESTA DE CLAUDE:
+Distinción Constraint vs. QA vs. Requisito Funcional (paso 1.b)
+
+La frase del CEO no contiene ninguna decisión de diseño ya tomada de forma binaria/externa (no menciona tecnología, proveedor, ni regulación específica) → no hay constraints explícitos en este enunciado. Los tres fragmentos son cualidades medibles con margen de negociación sobre el "cuánto" → los tres son QA: 
+- Performance: “ridiculamente rapido”
+- ⁠Disponibilidad: “nunca puede caerse...perderiamos millones por segundo”
+- ⁠Seguridad: “datos…blindados contra hackeos”
+Escenarios
+Performance (performance.md)
+Fuente: traders / sistemas externos que envían órdenes
+Estímulo: ráfaga (burst) de órdenes de compra/venta durante alta volatilidad de mercado
+Artefacto: motor de matching de órdenes
+Ambiente: sobrecarga (peak load)
+Respuesta: el sistema procesa y confirma cada orden, priorizando por orden de llegada
+Medida: [STRAW MAN — validar con Head of Trading/CEO, ya que "ridículamente rápido" es vago] latencia p99 ≤1 ms por orden bajo X órdenes/segundo; 0% de órdenes rechazadas por timeout
+Disponibilidad (disponibilidad.md)
+Fuente: falla de hardware/infraestructura del datacenter
+Estímulo: crash del motor de matching durante horario de mercado abierto
+Artefacto: motor de matching de órdenes
+Ambiente: operación normal (horario de mercado)
+Respuesta: el sistema detecta la falla (heartbeat), conmuta a réplica activa (failover) sin pérdida de transacciones en curso, notifica a operadores
+Medida: [STRAW MAN — validar con CTO/responsable de SLA] failover ≤5s; disponibilidad ≥99.999% en horario de mercado; 0 transacciones perdidas — Business goal #2 citado arriba
+Seguridad (seguridad.md) — ver hallazgo de granularidad abajo, dividido en dos escenarios
+
+Seguridad-A (datos en tránsito)
+
+Fuente: atacante externo con intención maliciosa
+Estímulo: intento de interceptación (man-in-the-middle) de datos de transacciones en tránsito
+Artefacto: canal de comunicaciones entre el core y clientes/sistemas externos
+Ambiente: sistema online, operación normal
+Respuesta: autenticación de la comunicación vía TLS 1.3, rechazo de conexiones no autenticadas, registro de auditoría
+Medida: [STRAW MAN — validar con CISO] 100% del tráfico bajo TLS 1.3; 100% de intentos de interceptación bloqueados; detección ≤10s
+
+Seguridad-B (datos en reposo)
+
+Fuente: atacante interno o externo con acceso a infraestructura de almacenamiento
+Estímulo: intento de acceso/exfiltración no autorizada de la base de datos de transacciones
+Artefacto: base de datos de transacciones financieras
+Ambiente: operación normal (incluye backups offline)
+Respuesta: encriptación en reposo (AES-256), acceso restringido por rol, alerta a administradores
+Medida: [STRAW MAN — validar con CISO] 100% de datos sensibles encriptados en reposo; 0 incidentes de exfiltración confirmados; alerta ≤1 min
+Chequeo de granularidad del artefacto (ítem propio)
+Performance / Disponibilidad → "motor de matching de órdenes": componente nombrado con precisión. Válido.
+Seguridad, versión original ("capa de comunicaciones y base de datos") agrupaba dos componentes con tácticas de respuesta distintas (TLS vs. AES-256) → hallazgo de granularidad, resuelto separando en Seguridad-A y Seguridad-B.
+Utilidad
+├── Performance
+│    └── Latencia bajo carga de mercado
+│         └── Procesamiento de orden en burst de alta volatilidad
+│              — (H, H) [prioridad no trazada: Context de negocio no explicitado, validar con stakeholder]
+├── Disponibilidad
+│    └── Recuperación ante falla del componente crítico
+│         └── Failover del motor de matching
+│              — (H, H) — Business goal: el sistema de negociación / debe permanecer disponible /
+│                "perderíamos millones por segundo" (CEO)
+└── Seguridad
+     ├── Confidencialidad e integridad — datos en tránsito
+     │    └── Bloqueo de interceptación (MITM) en comunicaciones
+     │         — (H, M) [prioridad no trazada: Context de negocio no explicitado, validar con stakeholder]
+     └── Confidencialidad e integridad — datos en reposo
+          └── Protección de la base de datos de transacciones
+               — (H, M) [prioridad no trazada: Context de negocio no explicitado, validar con stakeholder]
+
+Constraints del sistema: ninguno explícito en este enunciado.
+- CONCLUSIÓN: identifica correctamente los atributos de calidad (performance, disponibilidad y seguridad), realiza de forma completa los escenarios en cada caso y el árbol de utilidad.
+
+
+
+TEST_5:
+- RESPUESTA DE CLAUDE: 
+Incompleto. Hallazgos:
+
+Medida de la respuesta ausente — no puede dejarse vacía; corresponde aplicar la técnica de straw man (ej. [STRAW MAN — validar con CISO] 0 incidentes de exfiltración; 100% del tráfico y almacenamiento encriptado; detección de intrusión ≤X seg).
+Fuente del estímulo mal definida — "pedro" es un nombre propio, no un rol/tipo de entidad de la general scenario table (debería ser "atacante externo/interno con intención maliciosa", etc.). Un nombre propio no aporta contexto arquitectónico sobre cómo el sistema debe tratar el estímulo.
+Hallazgo de granularidad en el artefacto — "Capa de comunicaciones y base de datos de transacciones" agrupa dos componentes distintos. Las tácticas de respuesta ya lo evidencian (TLS para tránsito vs. AES-256 para reposo), lo que sugiere que en realidad son dos escenarios separados (datos en tránsito / datos en reposo), no uno solo.
+- CONCLUSIÓN: genera un análisis correcto respecto al escenario presentado de forma incompleta y erronea. Identifica la falta de la medida de respuesta haciendo referencia a que se debe aplicar la técnica STRAW MAN. Además, reconoce que no puede utilizarse un nombre propio para la fuente del estímulo. Por último, logra distinguir que se utiliza una conjunción en el artefacto generando un problema de granularidad. 
+
+
+
+TEST_6:
+- RESPUESTA DE CLAUDE:
+1. Estructura de 6 elementos
+
+Los 6 campos están presentes formalmente (fuente, estímulo, artefacto, ambiente, respuesta, medida), pero la medida está vacía ("—"). Según la skill, esto no puede quedar así: debe aplicarse la técnica de response measure straw man, nunca dejarse en blanco ni presentarse como "escenario completo" mientras falte.
+
+→ Resultado: INCOMPLETO.
+
+2. Correspondencia con la fuente del requerimiento (b)
+
+Comparando el escenario contra el enunciado original del stakeholder, encuentro dos desvíos:
+- Elemento: ambiente
+- ⁠Enunciado: "aun cuando existan problemas de conectividad”
+- ⁠Escenario propuesto: “operacion normal”
+- ⁠¿Coincide? No coincide. El requerimiento (b) es específicamente sobre el caso de falla de conectividad — ese es el desafío central que plantea el stakeholder. Poner el ambiente en "operación normal" vacía el escenario de su propósito: en operación normal, reportar una alarma no es un desafío de Disponibilidad, es trivial.
+
+- Elemento: respuesta
+- ⁠Enunciado: Debe reportar sin degradar el tiempo de respuesta, implicando explícitamente que el sistema tiene que sortear la falla (failover, ruta alternafailoverc.)
+- ⁠Escenario propuesto: "El sistema notifica la alarma al panel de control central"
+- ⁠¿Coincide? Incompleta. No dice cómo logra notificar pese a la falla de conectividad. Falta la táctica de recuperación/tolerancia a fallas (ej. detección de la falla + conmutación a canal alternativo), que es justamente lo que hace que este sea un escenario de Disponibilidad y no un flujo funcional simple.
+
+- Elemento: medida
+- ⁠Enunciado: "por ej., 2 segundos" (straw man dado por el propio stakeholder)
+- ⁠Escenario propuesto: “__”
+- ⁠¿Coincide? Ausente. El dato ya está sugerido en el enunciado original y no se trasladó al escenario.
+3. Chequeo de granularidad del artefacto
+
+"Módulo de gestión de alarmas" — nombrado con precisión, nivel de granularidad correcto en sí mismo. Pero dado que el desafío es la conectividad, falta considerar si el artefacto también debería incluir (o referenciar) el canal de comunicación, ya que es ahí donde ocurre la falla que el escenario necesita resolver. No es obligatorio fusionarlos, pero si se deja solo "módulo de gestión de alarmas" sin mencionar el canal, la respuesta tampoco puede describir un failover de red — lo cual explica por qué la respuesta quedó incompleta.
+
+4. Veredicto
+
+El escenario está INCOMPLETO por tres motivos:
+
+Medida de la respuesta ausente — viola directamente el criterio de completitud #1 y #3 de la skill (los 6 pasos deben estar presentes; toda medida debe ser un valor validado o straw man explícito).
+Ambiente mal seleccionado — "operación normal" no representa el desafío real planteado por el stakeholder (falla de conectividad), por lo que el escenario no está probando lo que el requerimiento (b) pide.
+Respuesta subespecificada — no describe ningún mecanismo de detección de falla ni de recuperación/ruta alternativa, que es el núcleo de un escenario de Disponibilidad.
+5. Escenario corregido (propuesta)
+Fuente del estímulo: sensor de incendio/humo (sin cambios — válido)
+Estímulo: se detecta humo en un sector del edificio, mientras el canal de comunicación principal presenta una falla de conectividad
+Artefacto: módulo de gestión de alarmas y canal de comunicación hacia el panel de control central
+Ambiente: modo degradado (falla de conectividad) — corregido desde "operación normal"
+Respuesta: el sistema detecta la falla del canal principal, conmuta a una vía de comunicación alternativa (failover) y notifica la alarma al panel de control central sin depender del canal caído
+Medida: [STRAW MAN — origen: ejemplo del stakeholder "por ej., 2 segundos", validar con responsable de SLA de seguridad edilicia] Tiempo entre la detección del evento y el reporte de la alarma ≤ 2 segundos, incluso en modo degradado; 100% de las alarmas críticas reportadas pese a falla de conectividad
+- CONCLUSIÓN: detecta que el escenario está incompleto por los siguientes 3 motivos:
+        1) Medida de la respuesta ausente.
+        2) Ambiente mal seleccionado: el escenario no esta probando lo que el requerimiento pide.
+        3) Respuesta incompleta: no dice como logra notificar pese a la falla de conectividad.
+
+TEST_7:
+-RESPUESTA DE CLAUDE:
+Mal identificado. No es Usabilidad: Usabilidad trata sobre la facilidad del usuario para lograr su objetivo, aprender el sistema o recuperarse de sus propios errores de uso. Acá el problema es una condición de concurrencia/integridad de datos (evitar doble asignación de un mismo recurso ante solicitudes simultáneas) — no depende de la habilidad o comportamiento del usuario.
+
+Además, antes de asignarle un atributo de calidad "negociable", cabe preguntarse si esto es en realidad un constraint/regla de negocio binaria ("solo uno puede activarlo, nunca ambos") más que una cualidad con margen de negociación de "cuánto". Recomiendo marcarlo como "requiere aclaración con el stakeholder": si se trata como QA, el candidato más cercano sería un aspecto de consistencia/confiabilidad bajo concurrencia (franja Runtime), no Usabilidad.
+- CONCLUSIÓN: logra reconocer que el atributo de calidad está mal identificado y explica por qué está mal utilizar usabilidad.
+
+TEST_8:
+-RESPUESTA DE CLAUDE:
+Mal construido. Problemas encontrados:
+
+Jerarquía violada: "Seguridad" aparece como sub-nodo de "Rendimiento" y "Rendimiento" aparece como sub-nodo de "Disponibilidad". Son atributos de calidad distintos y deben ser ramas de primer nivel independientes bajo "Utilidad", no mezclarse entre sí.
+Los nodos hoja no son escenarios completos: son frases sueltas de una línea ("los datos deben estar encriptados"), sin los 6 elementos (fuente, estímulo, artefacto, ambiente, respuesta, medida). El árbol exige escenarios específicos completos en el nivel 4, no enunciados sin desarrollar.
+"Escenario suelto: los logs deben guardarse por 5 años (sin prioridad)" queda fuera de la jerarquía de 4 niveles, violando la estructura obligatoria. Además, "sin prioridad" no es válido para un escenario QA — pero si se trata de un requisito regulatorio de retención (dato fijo, no negociable), en realidad es un constraint y debe moverse a una sección aparte "Constraints del sistema", no flotar dentro del árbol.
+Sin trazabilidad a business goals: ninguna tupla (H,H)/(H,M) cita el business goal del CEO que la sostiene, como exige el procedimiento de validación de prioridad — deben marcarse como "prioridad no trazada" hasta validarse.
+Cobertura de franjas incompleta (mismo hallazgo que en TEST_4): solo Runtime, sin Design Time, pese a tratarse de una migración activa.
+
+Conclusión: el árbol necesita reestructurarse con Seguridad, Disponibilidad y Performance como ramas independientes de primer nivel, escenarios completos en las hojas, el ítem de logs reclasificado como constraint (o completado como escenario si es negociable), y cada tupla de prioridad citando el business goal correspondiente.
+- CONCLUSIÓN: analiza de forma correcta que el árbol de utilidad está mal construido. 
+
